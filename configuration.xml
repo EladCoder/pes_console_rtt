@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="3">
+<raConfiguration version="12">
   <generalSettings>
-    <option key="#pinconfiguration#" value="R7FA2E3073CFL.pincfg"/>
     <option key="#Board#" value="board.ra2e3_fpb"/>
     <option key="CPU" value="RA2E3"/>
     <option key="Core" value="CM23"/>
@@ -9,7 +8,8 @@
     <option key="#TargetARCHITECTURE#" value="cortex-m23"/>
     <option key="#DeviceCommand#" value="R7FA2E307"/>
     <option key="#RTOS#" value="_none"/>
-    <option key="#FSPVersion#" value="6.5.0"/>
+    <option key="#pinconfiguration#" value="R7FA2E3073CFL.pincfg"/>
+    <option key="#FSPVersion#" value="6.4.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##ra2e3_fpb##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.3.1.arm-13-24"/>
@@ -135,52 +135,62 @@
       <description>Common source for all template projects.</description>
       <originalPack>Renesas.RA_common.6.5.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.5.0">
-      <description>Board Support Package Common Files</description>
-      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.5.0">
-      <description>I/O Port</description>
-      <originalPack>Renesas.RA.6.5.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.5.0">
+    <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.4.0">
       <description>Arm CMSIS Version 6 - Core (M)</description>
-      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.5.0.pack</originalPack>
+      <originalPack>Arm.CMSIS6.6.1.0+fsp.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="device" variant="R7FA2E3073CFL" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="6.4.0">
+      <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="6.4.0">
+      <description>I/O Port</description>
+      <originalPack>Renesas.RA.6.4.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="device" variant="R7FA2E3073CFL" vendor="Renesas" version="6.4.0">
       <description>Board support package for R7FA2E3073CFL</description>
-      <originalPack>Renesas.RA_mcu_ra2e3.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e3.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="device" variant="" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="device" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA2E3</description>
-      <originalPack>Renesas.RA_mcu_ra2e3.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e3.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="fsp" variant="" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="fsp" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA2E3 - FSP Data</description>
-      <originalPack>Renesas.RA_mcu_ra2e3.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e3.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="events" variant="" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="events" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA2E3 - Events</description>
-      <originalPack>Renesas.RA_mcu_ra2e3.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e3.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="linker" variant="" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="BSP" condition="" group="ra2e3" subgroup="linker" variant="" vendor="Renesas" version="6.4.0">
       <description>Board support package for RA2E3 - Linker</description>
-      <originalPack>Renesas.RA_mcu_ra2e3.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_mcu_ra2e3.6.4.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e3_fpb" variant="" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="ra2e3_fpb" variant="" vendor="Renesas" version="6.4.0">
       <description>FPB-RA2E3 Board Support Files</description>
-      <originalPack>Renesas.RA_board_ra2e3_fpb.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_board_ra2e3_fpb.6.4.0.pack</originalPack>
     </component>
   </raComponentSelection>
+  <raElcConfiguration/>
   <raIcuConfiguration/>
-  <raMessagingConfiguration/>
+  <raLinkMapConfiguration/>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
       <property id="module.driver.ioport.name" value="g_ioport"/>
+      <property id="module.driver.ioport.elc_trigger_ioport1" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport2" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport3" value="_disabled"/>
+      <property id="module.driver.ioport.elc_trigger_ioport4" value="_disabled"/>
+      <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
     </context>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+      <property id="config.driver.ioport.ccd_support_enable" value="config.driver.ioport.ccd_support_enable.disabled"/>
+    </config>
   </raModuleConfiguration>
   <raPinConfiguration>
     <symbolicName propertyId="p000.symbolic_name" value="ARDUINO_A0"/>
@@ -314,14 +324,14 @@
       <configSetting altId="sci9.rxd9.p110" configurationId="sci9.rxd9"/>
       <configSetting altId="sci9.txd9.p109" configurationId="sci9.txd9"/>
     </pincfg>
-    <pincfg active="false" name="R7FA2E3073CFL.pincfg" symbol="">
-      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
-      <configSetting altId="p108.jtag_fslash_swd.swdio" configurationId="p108"/>
-      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
-      <configSetting altId="p300.jtag_fslash_swd.swclk" configurationId="p300"/>
+    <pincfg active="false" name="R7FA2E3073CFL.pincfg" selected="false" symbol="">
       <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode"/>
       <configSetting altId="jtag_fslash_swd.swclk.p300" configurationId="jtag_fslash_swd.swclk"/>
       <configSetting altId="jtag_fslash_swd.swdio.p108" configurationId="jtag_fslash_swd.swdio"/>
+      <configSetting altId="p108.jtag_fslash_swd.swdio" configurationId="p108"/>
+      <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
+      <configSetting altId="p300.jtag_fslash_swd.swclk" configurationId="p300"/>
+      <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

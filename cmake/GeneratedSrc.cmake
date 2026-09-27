@@ -3,6 +3,30 @@
 
 #source directories
 file(GLOB_RECURSE Source_Files 
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.S
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.asm
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.sx
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/*.msa
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.S
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.asm
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.sx
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/*.msa
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.S
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.asm
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.sx
+    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.msa
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.cc
@@ -11,6 +35,14 @@ file(GLOB_RECURSE Source_Files
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.asm
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.sx
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen/*.msa
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.S
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.asm
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.sx
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt/*.msa
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc
@@ -18,15 +50,7 @@ file(GLOB_RECURSE Source_Files
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.S
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.asm
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.sx
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.msa
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.cxx
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.S
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.asm
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.sx
-    ${CMAKE_CURRENT_SOURCE_DIR}/ra/*.msa)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.msa)
 
 SET(ALL_FILES ${Source_Files})
 
@@ -50,6 +74,7 @@ target_compile_definitions(${PROJECT_NAME}.elf PRIVATE ${RASC_CMAKE_DEFINITIONS}
 
 target_include_directories(${PROJECT_NAME}.elf
     PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/"."
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_gen
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg/bsp
     ${CMAKE_CURRENT_SOURCE_DIR}/ra_cfg/fsp_cfg
@@ -58,6 +83,9 @@ target_include_directories(${PROJECT_NAME}.elf
     ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/api
     ${CMAKE_CURRENT_SOURCE_DIR}/ra/fsp/inc/instances
     ${CMAKE_CURRENT_SOURCE_DIR}/ra/arm/CMSIS_6/CMSIS/Core/Include
+    ${CMAKE_CURRENT_SOURCE_DIR}/segger_rtt
+    ${CMAKE_CURRENT_SOURCE_DIR}/pes/console_rtt/code/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/app/code
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}/
 )
@@ -66,6 +94,7 @@ target_link_directories(${PROJECT_NAME}.elf
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/script
+    ${CMAKE_CURRENT_SOURCE_DIR}/"${workspace_loc:/${ProjName}/script}"
 )
 
 target_link_libraries(${PROJECT_NAME}.elf
