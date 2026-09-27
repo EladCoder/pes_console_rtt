@@ -10,7 +10,6 @@ Configure: ```cmake -DARM_TOOLCHAIN_PATH="/your/toolchain/path" -DCMAKE_TOOLCHAI
 
 Build: ```cmake --build build/Debug```
 
-
 ### Configure via Visual Studio Code
 - Set ARM_GCC_TOOLCHAIN_PATH as an environment variable before starting VS code or alternatively set ARM_TOOLCHAIN_PATH in .vscode/cmake-kits.json
 - Select "ARM GCC kit with toolchainFile" kit in VS Code status bar
@@ -19,38 +18,45 @@ Build: ```cmake --build build/Debug```
 Example:
 
 ```set ARM_GCC_TOOLCHAIN_PATH=C:/12_2_mpacbti_rel1/bin```
-```cd "C:/work/pes_il/app/app_console_rtt/Platforms/ra2e3/fpb-ra2e3" && code .```
+```cd "C:/work/console_rtt/fpb-ra2e3" && code .```
 
 - Click build in VS Code status bar
 
+### Project layout
+
+| Folder               | Contents                                                        |
+|----------------------|-----------------------------------------------------------------|
+| `src/`               | `hal_entry.c`, `hal_warmstart.c` (bare-metal entry)             |
+| `src/app/`           | Application use-case (`console_rtt_app.c/.h`)                   |
+| `src/rs_console_rtt/`| CONSOLE_RTT PES: portable RTT logic + newlib syscall retarget   |
+| `src/segger_rtt/`    | Official SEGGER RTT V7.96e engine                               |
+| `ra/`, `ra_gen/`, `ra_cfg/` | FSP sources and RASC-generated configuration             |
+| `script/`            | Linker script (`fsp.ld`)                                        |
+
 ### Import and build in e² studio
 
-This is a CMake project (not a CDT managed-build project). Import it so that
-e² studio creates the CMake Core Build configuration and toolchain binding:
+This is an e² studio **managed-build** project (GCC ARM Embedded 13.3.1,
+configurations *Debug* and *Release*).
 
-1. **File → Import… → C/C++ → Existing CMake Project into Workspace**
-   (Renesas CMake importer). Point *Existing location* at this folder:
-   `app/app_console_rtt/Platforms/ra2e3/fpb-ra2e3`.
-   Do **not** use *Open Projects from File System* — it imports the folder
-   without creating the CMake build configuration, which produces
-   *"Core Build config provider failed to create a config"*.
-2. **Toolchain:** select **GCC ARM Embedded** (arm-none-eabi 13.3) and, if
-   prompted, set the toolchain `bin` path, e.g.
-   `C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1/bin`.
-   Alternatively set `ARM_GCC_TOOLCHAIN_PATH` in the environment before
-   launching e² studio.
-3. **Generator:** CMake + Ninja (matches `CMakePresets.json`).
-4. **Build** from the Launch Bar (hammer) or **Project → Build Project**.
-   Output is written to `build/cmake.arm.<config>.R7FA2E307/` (ignored by git).
+1. **File → Import… → General → Existing Projects into Workspace**, select
+   this folder (`pes_ra2e3_console_rtt`).
+2. Make sure the **GCC ARM Embedded 13.3.1.arm-13-24** toolchain is registered
+   in e² studio (*Window → Preferences → Renesas → Toolchains*), e.g.
+   `C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.3 rel1`.
+3. **Project → Build Project**. Output (`pes_ra2e3_console_rtt.elf/.srec/.map`)
+   is written to `Debug/` or `Release/`.
+4. Debug with **Debug As → Renesas GDB Hardware Debugging** (J-Link,
+   R7FA2E307).
 
-**Expected linker notes:** with `--specs=nano.specs --specs=nosys.specs`,
-newlib reports `_close/_fstat/_isatty/_lseek is not implemented`. These are the
-harmless nosys stubs; the strong `_write()`/`_read()` from `rs_console_rtt.c`
-override them and provide stdio over SEGGER RTT channel 0.
+The newlib syscalls used by stdio (`_write`, `_read`, `_close`, `_fstat`,
+`_isatty`, `_lseek`) are implemented in
+`src/rs_console_rtt/rs_console_rtt_syscalls.c`, so the build is free of the
+`nosys` "not implemented" linker notes.
 
 ### Run / validate on FPB-RA2E3
 
-1. Flash `console_rtt.elf` via the J-Link debug configuration.
+1. Flash `pes_ra2e3_console_rtt.elf` (e² studio) or `console_rtt.elf` (CMake)
+   via the J-Link debug configuration.
 2. Open **J-Link RTT Viewer** on channel 0.
 3. You should see the banner, then each typed line echoed as
    `You printed: <input>`.

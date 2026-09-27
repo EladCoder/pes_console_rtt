@@ -22,8 +22,8 @@
 
 #include "hal_data.h"
 
-/* Application use-case (app/app_console_rtt/code/console_rtt_app.c). */
-void console_rtt_app_run(void);
+/* Application use-case (src/app/console_rtt_app.c). */
+#include "console_rtt_app.h"
 
 void hal_entry(void)
 {

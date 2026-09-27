@@ -59,42 +59,24 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake/GeneratedSrc.cmake)
 # CONSOLE_RTT integration  (added on top of the RASC-generated project)
 # ─────────────────────────────────────────────────────────────────────────────
 # GeneratedSrc.cmake above defines the executable target ${PROJECT_NAME}.elf
-# (here: console_rtt.elf) and globs ra/, ra_gen/ and src/. We fold the console
-# application, the newlib retarget PES, and the official SEGGER RTT engine
-# DIRECTLY into that ELF (not as a static archive), so the strong _write()/
-# _read() in rs_console_rtt_syscalls.c are always linked and override the
-# newlib syscall stubs without needing "-u _write -u _read".
+# and recursively globs ra/, ra_gen/ and src/, so the CONSOLE_RTT sources are
+# compiled DIRECTLY into that ELF (not as a static archive) with no extra
+# target_sources() needed:
+#   src/app/            application use-case (console_rtt_app.c/.h)
+#   src/rs_console_rtt/ CONSOLE_RTT PES: portable RTT logic + newlib syscalls
+#   src/segger_rtt/     official SEGGER RTT V7.96e engine
+# Their include directories are listed in GeneratedSrc.cmake as well.
 #
 # Constraints honoured here:
 #   - No UART, no FreeRTOS, no Picolibc, no logger.
 #   - SEGGER_RTT_printf.c and SEGGER_RTT_Syscalls_GCC.c are deliberately NOT
-#     compiled: rs_console_rtt_syscalls.c is the sole _write()/_read() provider.
-#   - app/app_console_rtt/code/main.c is NOT compiled here — ra_gen/main.c owns
-#     main(); src/hal_entry.c calls console_rtt_app_run().
-#
-# Repo layout: this file lives at
-#   app/app_console_rtt/Platforms/ra2e3/fpb-ra2e3/CMakeLists.txt
-# so the repository root is five levels up.
-set(_repo_root  "${CMAKE_CURRENT_LIST_DIR}/../../../../..")
-set(_app_dir    "${_repo_root}/app/app_console_rtt")
-set(_pes_dir    "${_repo_root}/pes/console_rtt")
-set(_segger_dir "${_repo_root}/shared/libs/SEGGER_RTT")
-
-target_sources(${PROJECT_NAME}.elf PRIVATE
-    ${_app_dir}/code/console_rtt_app.c              # application use-case (bounded-line demo)
-    ${_pes_dir}/code/src/rs_console_rtt.c           # portable RTT logic (rs_console_rtt_*_impl)
-    ${_pes_dir}/code/src/rs_console_rtt_syscalls.c  # newlib _write()/_read() -> SEGGER RTT
-    ${_segger_dir}/SEGGER_RTT.c                     # official SEGGER RTT V7.96e engine
-)
-
-target_include_directories(${PROJECT_NAME}.elf PRIVATE
-    ${_segger_dir}                            # SEGGER_RTT.h / SEGGER_RTT_Conf.h
-)
+#     part of src/segger_rtt/: rs_console_rtt_syscalls.c is the sole newlib
+#     syscall provider (_write/_read/_close/_fstat/_isatty/_lseek).
+#   - ra_gen/main.c owns main(); src/hal_entry.c calls console_rtt_app_run().
 
 # newlib syscall stubs: nano.specs (from RASC) provides the reduced libc; add
-# nosys.specs so the syscalls we do NOT implement (_close/_lseek/_fstat/_isatty/
-# _getpid/_kill/_exit ...) resolve to weak stubs. Our strong _write()/_read()
-# (rs_console_rtt_syscalls.c) are compiled directly into the ELF above and
-# therefore win over the nosys weak versions — no multiple-definition
-# conflict, no "-u" needed.
+# nosys.specs so the syscalls we do NOT implement (_getpid/_kill/_exit ...)
+# resolve to weak stubs. The strong versions in rs_console_rtt_syscalls.c are
+# compiled directly into the ELF and therefore win over the nosys weak ones —
+# no multiple-definition conflict, no "-u" needed.
 target_link_options(${PROJECT_NAME}.elf PRIVATE --specs=nosys.specs)

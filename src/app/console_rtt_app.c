@@ -21,6 +21,8 @@
  *   - No dynamic allocation: the input line uses a fixed, bounded buffer.
  **********************************************************************************************************************/
 
+#include "console_rtt_app.h"
+
 #include <stdio.h>
 #include <string.h>
 

@@ -18,6 +18,23 @@
 
 #include "rs_console_rtt.h"
 
+#include <errno.h>
+#include <sys/stat.h>
+
+/* newlib has no public prototypes for these; declare them to satisfy -Wmissing-declarations. */
+int _write(int fd, const char * buf, int len);
+int _read(int fd, char * buf, int len);
+int _close(int fd);
+int _fstat(int fd, struct stat * st);
+int _isatty(int fd);
+int _lseek(int fd, int offset, int whence);
+
+/* stdin / stdout / stderr are the only descriptors backed by RTT. */
+static int rs_console_rtt_is_std_fd(int fd)
+{
+    return (fd >= 0) && (fd <= 2);
+}
+
 /*──────────────────────────────────────────────────────────────────────────────
  * _write — stdout / stderr -> RTT up-buffer (target -> J-Link).
  *
@@ -38,4 +55,49 @@ int _write(int fd, const char * buf, int len)
 int _read(int fd, char * buf, int len)
 {
     return rs_console_rtt_read_impl(fd, buf, len);
+}
+
+/*──────────────────────────────────────────────────────────────────────────────
+ * _close / _fstat / _isatty / _lseek — minimal implementations for the RTT-backed
+ * standard streams. They replace the nosys.specs stubs, which are tagged with
+ * "not implemented and will always fail" link-time warnings. Reporting the
+ * standard streams as character devices / TTYs also makes newlib line-buffer
+ * stdout instead of fully buffering it.
+ *────────────────────────────────────────────────────────────────────────────*/
+int _close(int fd)
+{
+    (void) fd;
+    errno = EBADF;
+    return -1;
+}
+
+int _fstat(int fd, struct stat * st)
+{
+    if (!rs_console_rtt_is_std_fd(fd) || (NULL == st))
+    {
+        errno = EBADF;
+        return -1;
+    }
+
+    st->st_mode = S_IFCHR;
+    return 0;
+}
+
+int _isatty(int fd)
+{
+    if (rs_console_rtt_is_std_fd(fd))
+    {
+        return 1;
+    }
+
+    errno = EBADF;
+    return 0;
+}
+
+int _lseek(int fd, int offset, int whence)
+{
+    (void) offset;
+    (void) whence;
+    errno = rs_console_rtt_is_std_fd(fd) ? ESPIPE : EBADF;
+    return -1;
 }

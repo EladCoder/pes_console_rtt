@@ -11,9 +11,9 @@
  *   - the target syscall wrappers  (rs_console_rtt_syscalls.c: _write / _read)
  *   - the host unit tests          (test/test_console_rtt.c)
  *
- * The header lives in code/src/ (a PRIVATE include dir of the rs_console_rtt
- * module) and is NOT exposed via PUBLIC_HEADERS, so application code cannot
- * include it or call these functions directly.
+ * The header lives in src/rs_console_rtt/ alongside its implementation. It is
+ * internal to the rs_console_rtt module: application code must not include it
+ * or call these functions directly.
  **********************************************************************************************************************/
 #ifndef RS_CONSOLE_RTT_H
 #define RS_CONSOLE_RTT_H
