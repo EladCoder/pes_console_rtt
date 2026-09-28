@@ -131,9 +131,9 @@
     <node id="board.clock.clkout.display" option="board.clock.clkout.display.value"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.5.0">
+    <component apiversion="" class="Projects" condition="" group="all" subgroup="common" variant="" vendor="Renesas" version="6.4.0">
       <description>Common source for all template projects.</description>
-      <originalPack>Renesas.RA_common.6.5.0.pack</originalPack>
+      <originalPack>Renesas.RA_common.6.4.0.pack</originalPack>
     </component>
     <component apiversion="" class="CMSIS" condition="" group="Main" subgroup="CoreM" variant="" vendor="Arm" version="6.1.0+fsp.6.4.0">
       <description>Arm CMSIS Version 6 - Core (M)</description>
